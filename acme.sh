@@ -44,9 +44,9 @@ checktls(){
 if [[ -f /root/cert.crt && -f /root/private.key ]]; then
 if [[ -s /root/cert.crt && -s /root/private.key ]]; then
 green "恭喜，域名证书申请成功！域名证书（cert.crt）和私钥（private.key）已保存到 /root 文件夹" 
-yellow "证书crt路径如下，可直接复制"
+yellow "公钥文件crt路径如下，可直接复制"
 green "/root/cert.crt"
-yellow "私钥key路径如下，可直接复制"
+yellow "密钥文件key路径如下，可直接复制"
 green "/root/private.key"
 else
 red "遗憾，域名证书申请失败"
