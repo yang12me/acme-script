@@ -71,10 +71,10 @@ echo -e "nameserver 2001:67c:2b0::4\nnameserver 2001:67c:2b0::6" > /etc/resolv.c
 fi
 read -p "请输入注册邮箱（回车跳过则自动生成虚拟邮箱）：" Aemail
 if [ -z $Aemail ]; then
-auto=`date +%s%N |md5sum | cut -c 1-32`
+auto=`date +%s%N |md5sum | cut -c 1-6`
 Aemail=$auto@gmail.com
-yellow "虚拟创建邮箱：$Aemail"
 fi
+yellow "当前创建邮箱：$Aemail"
 curl https://get.acme.sh | sh -s email=$Aemail
 source ~/.bashrc
 bash /root/.acme.sh/acme.sh --upgrade --auto-upgrade
