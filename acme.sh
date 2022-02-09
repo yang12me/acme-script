@@ -66,6 +66,9 @@ green "安装必要依赖及acme……"
 [[ $(type -P socat) ]] || $yumapt install socat
 v6=$(curl -s6m3 https://ip.gs)
 v4=$(curl -s4m3 https://ip.gs)
+if [ -z $v4 ]; then
+echo -e "nameserver 2001:67c:2b0::4\nnameserver 2001:67c:2b0::6" > /etc/resolv.conf
+fi
 read -p "请输入注册邮箱（回车跳过则自动生成虚拟邮箱）：" Aemail
 if [ -z $Aemail ]; then
 auto=`date +%s%N |md5sum | cut -c 1-32`
