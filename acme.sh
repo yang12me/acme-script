@@ -37,7 +37,7 @@ back(){
 white "------------------------------------------------------------------------------------------------"
 white " 回主菜单，请按任意键"
 white " 退出脚本，请按Ctrl+C"
-get_char && bash <(curl -sSL https://cdn.jsdelivr.net/gh/kkkyg/Cscript/ygkkktools.sh)
+get_char && bash <(curl -sSL https://cdn.jsdelivr.net/gh/kkkyg/acme-script/acme.sh)
 }
 
 checktls(){
@@ -64,14 +64,17 @@ green "安装必要依赖及acme……"
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
 [[ $(type -P curl) ]] || $yumapt update;$yumapt install curl
 [[ $(type -P socat) ]] || $yumapt install socat
-[[ $(type -P binutils) ]] || $yumapt install binutils
 v6=$(curl -s6m3 https://ip.gs)
 v4=$(curl -s4m3 https://ip.gs)
-auto=`head -n 50 /dev/urandom | sed 's/[^a-z]//g' | strings -n 4 | tr '[:upper:]' '[:lower:]' | head -1`
-curl https://get.acme.sh | sh -s email=$auto@gmail.com
+read -p "请输入注册邮箱（回车跳过则自动生成虚拟邮箱）：" Aemail
+if [ -z $Aemail ]; then
+auto=`date +%s%N |md5sum | cut -c 1-32`
+Aemail=$auto@gmail.com
+yellow "虚拟创建邮箱：$Aemail"
+fi
+curl https://get.acme.sh | sh -s email=$Aemail
 source ~/.bashrc
 bash /root/.acme.sh/acme.sh --upgrade --auto-upgrade
-yellow "注册acme，创建邮箱的随机前缀：$auto@gmail.com"
 read -p "请输入解析完成的域名:" ym
 green "已输入的域名:$ym" && sleep 1
 domainIP=$(curl -s ipget.net/?ip="cloudflare.1.1.1.1.$ym")
