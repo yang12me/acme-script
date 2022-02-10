@@ -93,6 +93,7 @@ bash /root/.acme.sh/acme.sh  --issue -d ${ym} --standalone -k ec-256 --server le
 fi
 if [[ -n $(echo $domainIP | grep nginx) ]]; then
 yellow "域名解析无效，请检查二级域名是否填写正确或稍等几分钟等待解析完成再执行脚本"
+systemctl start wg-quick@wgcf >/dev/null 2>&1
 back
 elif [[ -n $(echo $domainIP | grep ":") || -n $(echo $domainIP | grep ".") ]]; then
 if [[ $domainIP != $v4 ]] && [[ $domainIP != $v6 ]]; then
@@ -100,6 +101,7 @@ red "当前二级域名解析的IP与当前VPS使用的IP不匹配"
 green "建议如下："
 yellow "1、请确保Cloudflare小黄云关闭状态(仅限DNS)，其他域名解析网站设置同理"
 yellow "2、请检查域名解析网站设置的IP是否正确"
+systemctl start wg-quick@wgcf >/dev/null 2>&1
 back
 fi
 fi
