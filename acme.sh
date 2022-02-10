@@ -66,15 +66,13 @@ green "安装必要依赖及acme……"
 [[ $(type -P socat) ]] || $yumapt install socat
 v6=$(curl -s6m3 https://ip.gs)
 v4=$(curl -s4m3 https://ip.gs)
-if [ -z $v4 ]; then
-echo -e nameserver 2a01:4f8:c2c:123f::1 > /etc/resolv.conf
-fi
+[[ -z $v4 ]] && echo -e nameserver 2a01:4f8:c2c:123f::1 > /etc/resolv.conf
 read -p "请输入注册邮箱（回车跳过则自动生成虚拟邮箱）：" Aemail
 if [ -z $Aemail ]; then
 auto=`date +%s%N |md5sum | cut -c 1-6`
 Aemail=$auto@gmail.com
 fi
-yellow "当前创建邮箱：$Aemail"
+yellow "当前执行的邮箱名称：$Aemail"
 curl https://get.acme.sh | sh -s email=$Aemail
 source ~/.bashrc
 bash /root/.acme.sh/acme.sh --upgrade --auto-upgrade
