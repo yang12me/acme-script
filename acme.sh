@@ -58,7 +58,7 @@ fi
 fi
 }
 acme(){
-systemctl stop nginx >/dev/null 2>&1
+lsof -i :80|grep -v "PID"|awk '{print "kill -9",$2}'|sh
 systemctl stop wg-quick@wgcf >/dev/null 2>&1	   
 green "安装必要依赖及acme……"
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
